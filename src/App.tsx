@@ -1,25 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import "./App.css";
+import { useEffect } from "react";
+import { NavBar } from "./components/NavBar/NavBar";
+import { useAppDispatch } from "./store/hooks";
+import { setUser } from "./store/slices/userSlice";
+import { retrieveFavorites } from "./store/slices/favoritesSlice";
 
+// TODO    cambio password, insert old and new with confirm
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const user = localStorage.getItem("data");
+
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      dispatch(setUser(parsedUser));
+    }
+
+    const favorites = localStorage.getItem("favorites");
+    if (favorites) {
+      dispatch(retrieveFavorites(JSON.parse(favorites)));
+    }
+  }, [dispatch, navigate]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {location.pathname !== "/" && <NavBar />}
+      <Outlet />
+    </>
   );
 }
 

@@ -1,0 +1,16 @@
+.active_navlink,.inactive{
+    color:black;
+    margin:0px 15px;
+    padding:5px 0px;
+}
+
+.active_navlink{
+    border-bottom:solid 1px black;
+}
+.activeProfile{
+    margin:0px 15px;
+    padding:5px 0px;
+}
+.profile{
+    width: 50px;
+}
