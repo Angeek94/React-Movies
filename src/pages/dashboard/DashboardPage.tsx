@@ -21,8 +21,7 @@ export const DashboardPage = () => {
         <Spin style={{ position: "absolute", bottom: "50%", left: "50%" }} />
       );
     if (error) alert("Errore film non trovati");
-    if (data)
-      return <MoviesCardList data-testid="all-films" data={data.results} />;
+    if (data) return <MoviesCardList data={data.results} />;
   }, [data, error, isLoading]);
 
   return (
@@ -32,6 +31,7 @@ export const DashboardPage = () => {
         <Row justify={"center"} style={{ marginBottom: 20 }}>
           <button
             style={{ background: "white", border: 0 }}
+            data-testid="prev"
             onClick={() =>
               handlePaginationPrev(data, pageSelected, setPageSelected)
             }
@@ -41,6 +41,7 @@ export const DashboardPage = () => {
           <span className={"index"}>{pageSelected}</span>
           <button
             style={{ background: "white", border: 0 }}
+            data-testid="next"
             onClick={() =>
               handlePaginationNext(data, pageSelected, setPageSelected)
             }

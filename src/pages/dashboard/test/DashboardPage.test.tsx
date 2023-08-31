@@ -1,16 +1,15 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { DashboardPage } from "../DashboardPage";
-import { RootState, setupStore } from "../../../store/store";
+import { setupStore } from "../../../store/store";
 import { Provider } from "react-redux";
-import { PreloadedState } from "@reduxjs/toolkit";
-import { MoviesCardList } from "../../../components/MoviesCardList/MoviesCardList";
-import { IMovieDetail } from "../../../interfaces/IMovie";
+import { IMovie } from "../../../interfaces/IMovie";
 import { useGetMoviesByPageQuery } from "../../../store/apiRTK";
 
 jest.mock("../../../store/apiRTK", () => ({
   ...jest.requireActual("../../../store/apiRTK"),
   moviesApi: jest.fn(),
 }));
+
 const mockedUseGetMoviesByPageQuery = jest.mocked(useGetMoviesByPageQuery);
 
 const renderDashboardPageWithProvider = () =>
@@ -20,23 +19,17 @@ const renderDashboardPageWithProvider = () =>
     </Provider>
   );
 
-const mockReturn = (props: {
-  isLoading: boolean;
-  error: unknown;
-  data: IMovieDetail[];
-}) => {
-  mockedUseGetMoviesByPageQuery.mockReturnValueOnce({ ...props } as any);
+const elementsMock: IMovie = {
+  results: [
+    {
+      id: "709631",
+      overview: "mock",
+      poster_path: "mock",
+      title: "Cobweb",
+    },
+  ],
+  total_pages: 1,
 };
-
-const elementsMock: IMovieDetail[] = [
-  {
-    id: "709631",
-    overview: "mock",
-    poster_path: "mock",
-    title: "Cobweb",
-  },
-];
-
 const mockedHandlePaginationPrev = jest.fn();
 
 jest.mock("../hooks/useOnPaginationPrev.ts", () => ({
@@ -53,11 +46,44 @@ jest.mock("../../../components/MoviesCardList/MoviesCardList", () => ({
     return <div data-testid="all-films"></div>;
   },
 }));
+jest.mock("../../../store/apiRTK", () => ({
+  ...jest.requireActual("../../../store/apiRTK"),
+  useGetMoviesByPageQuery: jest.fn(),
+}));
+const mockReturn = (
+  data: IMovie | undefined = undefined,
+  isLoading = false,
+  isError = false
+) => {
+  mockedUseGetMoviesByPageQuery.mockReturnValueOnce({
+    refetch: jest.fn(),
+    data,
+    isLoading,
+    isError,
+  });
+};
 
 describe("Dashboard Component", () => {
-  test("blabla", async () => {
-    mockReturn({ isLoading: false, error: undefined, data: elementsMock });
+  afterEach(() => {
+    cleanup();
+  });
+  test("should be present movies", () => {
+    mockReturn(elementsMock);
     renderDashboardPageWithProvider();
-    expect(await screen.findByTestId("all-films")).toBeInTheDocument();
+    expect(screen.getByTestId("all-films")).toBeInTheDocument();
+  });
+
+  test("should be click prev", () => {
+    mockReturn(elementsMock);
+    renderDashboardPageWithProvider();
+    fireEvent.click(screen.getByTestId("prev"));
+    expect(mockedHandlePaginationPrev).toHaveBeenCalled();
+  });
+
+  test("should be click next", () => {
+    mockReturn(elementsMock);
+    renderDashboardPageWithProvider();
+    fireEvent.click(screen.getByTestId("next"));
+    expect(mockedHandlePaginationNext).toHaveBeenCalled();
   });
 });

@@ -7,9 +7,8 @@ export const FavoritesPage = () => {
 
   return (
     <>
-      {}
       {favorites.length === 0 ? (
-        <p style={{textAlign:"center"}}>Nessun preferito</p>
+        <p style={{ textAlign: "center" }}>Nessun preferito</p>
       ) : (
         favorites && <MoviesCardList data={favorites} />
       )}

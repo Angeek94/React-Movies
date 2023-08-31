@@ -8,9 +8,9 @@ import { Provider } from "react-redux";
 import { setupStore } from "../store";
 import { renderHook } from "@testing-library/react";
 
-function Wrapper(props: { children: ReactNode }) {
+const Wrapper = (props: { children: ReactNode }) => {
   return <Provider store={setupStore()}>{props.children}</Provider>;
-}
+};
 
 describe("apiRTK", () => {
   test("should get movies by page", () => {

@@ -13,8 +13,6 @@ import {
 } from "../../store/slices/userSlice";
 import { IChangePassword } from "../../interfaces/IChangePassword";
 
-///TODO compare new password with old password from selector inside validation schema
-// TODO
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
