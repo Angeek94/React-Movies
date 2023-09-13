@@ -1,4 +1,4 @@
-import { Row, Spin } from "antd";
+import { Alert, Row, Spin } from "antd";
 import { useGetMoviesByPageQuery } from "../../store/apiRTK";
 import { MoviesCardList } from "../../components/MoviesCardList/MoviesCardList";
 import { useMemo, useState } from "react";
@@ -11,7 +11,7 @@ export const DashboardPage = () => {
   const handlePaginationNext = useOnPaginationNext();
   const handlePaginationPrev = useOnPaginationPrev();
 
-  const { data, isLoading, error } = useGetMoviesByPageQuery(
+  const { data, isLoading, isError } = useGetMoviesByPageQuery(
     pageSelected.toString()
   );
 
@@ -20,9 +20,16 @@ export const DashboardPage = () => {
       return (
         <Spin style={{ position: "absolute", bottom: "50%", left: "50%" }} />
       );
-    if (error) alert("Errore film non trovati");
+    if (isError)
+      return (
+        <Alert
+          style={{ margin: 10 }}
+          message="Errore film non trovati"
+          type="error"
+        />
+      );
     if (data) return <MoviesCardList data={data.results} />;
-  }, [data, error, isLoading]);
+  }, [data, isError, isLoading]);
 
   return (
     <>

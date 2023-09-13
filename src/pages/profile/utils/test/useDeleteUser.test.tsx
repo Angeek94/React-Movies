@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { useOnSubmit } from "../useOnSubmit";
+import { useDeleteUser } from "../useDeleteUser";
 
 const mockedUseNavigate = jest.fn();
 
@@ -15,10 +15,11 @@ jest.mock("../../../../store/hooks", () => ({
   useAppDispatch: () => mockedDispatch,
 }));
 
-describe("useOnSubmit", () => {
-  test("App goes into Dashboard and dispatch user", () => {
-    const { result } = renderHook(useOnSubmit);
+describe("useDeleteUser", () => {
+  test("should remove user and confirm remove", () => {
+    const { result } = renderHook(useDeleteUser);
     result.current();
-    expect(mockedUseNavigate).toHaveBeenCalledWith("/dashboard");
+    expect(mockedUseNavigate).toHaveBeenCalledWith("/");
+    expect(mockedDispatch).toHaveBeenCalled();
   });
 });

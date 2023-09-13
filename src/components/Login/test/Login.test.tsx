@@ -14,6 +14,7 @@ jest.mock("react-router-dom", () => ({
 jest.mock("../utils/useOnSubmit.ts", () => ({
   useOnSubmit: () => jest.fn(),
 }));
+
 const renderLoginWithProvider = (preloadedState?: PreloadedState<RootState>) =>
   render(
     <Provider store={setupStore(preloadedState)}>

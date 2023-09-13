@@ -26,6 +26,9 @@ export const SignUp = () => {
 
   return (
     <>
+      <Row justify={"center"} style={{ margin: 20, fontSize: 30 }}>
+        Iscriviti:
+      </Row>
       <Row justify={"center"} style={{ marginTop: "42.5vh" }}>
         <Col span={3}>
           <Formik
@@ -113,7 +116,7 @@ export const SignUp = () => {
                   disabled={!isValid}
                   style={{ marginTop: 20 }}
                 >
-                  Submit
+                  Iscriviti
                 </button>
               </Form>
             )}

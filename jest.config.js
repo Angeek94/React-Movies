@@ -7,6 +7,11 @@ module.exports = {
     "<rootDir>/src/setupTests.ts",
   ],
   moduleNameMapper: {
-    "\\.(css|less)$": "identity-obj-proxy",
+    "\\.(css|less|jpg)$": "identity-obj-proxy",
   },
+  coveragePathIgnorePatterns: [
+    "<rootDir>/src/reportWebVitals.ts",
+
+    "^.*\\index\\.ts[x]?$",
+  ],
 };

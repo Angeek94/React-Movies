@@ -6,7 +6,6 @@ import { useAppSelector } from "../../store/hooks";
 import { IUser } from "../../interfaces/IUser";
 export const Login = () => {
   const userData: IUser = useAppSelector((state) => state.user);
-  console.log(userData);
   const SignupSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid e-mail")
@@ -20,6 +19,9 @@ export const Login = () => {
   const handleSubmitLogin = useOnSubmit();
   return (
     <>
+      <Row justify={"center"} style={{ margin: 20, fontSize: 30 }}>
+        Accedi:
+      </Row>
       <Row justify={"center"} style={{ marginTop: "42.5vh" }}>
         <Col span={3}>
           <Formik
@@ -74,7 +76,7 @@ export const Login = () => {
                   disabled={!isValid}
                   style={{ marginTop: 20 }}
                 >
-                  Submit
+                  Accedi
                 </button>
               </Form>
             )}

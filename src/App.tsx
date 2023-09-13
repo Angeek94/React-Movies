@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import "./App.css";
 import { useEffect } from "react";
 import { NavBar } from "./components/NavBar/NavBar";
@@ -6,9 +6,7 @@ import { useAppDispatch } from "./store/hooks";
 import { setUser } from "./store/slices/userSlice";
 import { retrieveFavorites } from "./store/slices/favoritesSlice";
 
-// TODO    cambio password, insert old and new with confirm
-function App() {
-  const navigate = useNavigate();
+export function App() {
   const location = useLocation();
   const dispatch = useAppDispatch();
 
@@ -24,7 +22,7 @@ function App() {
     if (favorites) {
       dispatch(retrieveFavorites(JSON.parse(favorites)));
     }
-  }, [dispatch, navigate]);
+  }, [dispatch]);
 
   return (
     <>
